@@ -74,6 +74,7 @@
         static function deleteAll()
         {
             $GLOBALS['DB']->exec("DELETE FROM students;");
+            $GLOBALS['DB']->exec("DELETE FROM students_courses;");
         }
 
         static function findStudent($search_id)

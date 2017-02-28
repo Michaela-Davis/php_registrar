@@ -75,6 +75,34 @@
             $this->assertEquals($test_course2,$result);
         }
 
+        function test_getClass()
+        {
+            // Arrange
+            $student_name = "Ada Lovelace";
+            $date_of_enrollment = "2017-02-28";
+            $test_student = new Student($student_name,$date_of_enrollment);
+            $test_student->save();
+
+            $student_name2 = "Charles Babbage";
+            $date_of_enrollment2 = "2017-03-01";
+            $test_student2 = new Student($student_name2,$date_of_enrollment2);
+            $test_student2->save();
+
+            $course_name = "Macro Economics";
+            $course_number = "ECON101";
+            $test_course = new Course($course_name, $course_number);
+            $test_course->save();
+            $test_course->addStudent($test_student->getStudentId());
+            $test_course->addStudent($test_student2->getStudentId());
+
+            // Act
+            $result = $test_course->getClass();
+            
+
+            // Assert
+            $this->assertEquals([$test_student, $test_student2], $result);
+        }
+
 
 
     }

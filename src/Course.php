@@ -33,6 +33,31 @@
                 $this->id = $GLOBALS['DB']->lastInsertId();
         }
 
+        function addStudent($student_id)
+        {
+            $GLOBALS['DB']->exec("INSERT INTO students_courses (student_id, course_id) VALUES ({$student_id}, {$this->getCourseId()});");
+        }
+
+        function getClass()
+        {
+            $queries = $GLOBALS['DB']->query("SELECT students.* FROM
+                courses JOIN students_courses ON (courses.id = students_courses.course_id)
+                        JOIN students ON (students_courses.student_id = students.id)
+                    WHERE courses.id = {$this->getCourseId()};");
+            $return_students = [];
+            // $returned_class = $queries->fetchAll(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, "Student", array('student_name', 'date_of_enrollment', 'id'));
+            foreach ($queries as $query)
+            {
+                $student_name = $query['student_name'];
+                $date_of_enrollment = $query['date_of_enrollment'];
+                $id = $query['id'];
+                $student = new Student($student_name, $date_of_enrollment, $id);
+                array_push($return_students,$student);
+            }
+            return $return_students;
+
+        }
+
         static function getAll()
         {
             $queries = $GLOBALS['DB']->query("SELECT * FROM courses;");
@@ -50,6 +75,7 @@
         static function deleteAll()
         {
             $GLOBALS['DB']->exec("DELETE FROM courses;");
+            $GLOBALS['DB']->exec("DELETE FROM students_courses;");
         }
 
         static function findCourse($search_id)
