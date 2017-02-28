@@ -35,15 +35,15 @@
 
         static function getAll()
         {
-            $returned_courses = $GLOBALS['DB']->query("SELECT * FROM courses;");
-            $all_courses = [];
-            foreach ($returned_courses as $course) {
-                $course_name = $course['course_name'];
-                $course_number = $course['course_number'];
-                $id = $course['id'];
-                $new_course = new Course($course_name, $course_number, $id);
-                array_push($all_courses, $new_course);
-            }
+            $queries = $GLOBALS['DB']->query("SELECT * FROM courses;");
+            $all_courses = $queries->fetchAll(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, "Course", array('course_name','course_number','id'));
+            // foreach ($returned_courses as $course) {
+            //     $course_name = $course['course_name'];
+            //     $course_number = $course['course_number'];
+            //     $id = $course['id'];
+            //     $new_course = new Course($course_name, $course_number, $id);
+            //     array_push($all_courses, $new_course);
+            // }
             return $all_courses;
         }
 

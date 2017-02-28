@@ -36,15 +36,15 @@
         static function getAll()
         {
             $queries = $GLOBALS['DB']->query("SELECT * FROM students;");
-            $return_student = [];
-            foreach ($queries as $query)
-            {
-                $student_name = $query['student_name'];
-                $date_of_enrollment = $query['date_of_enrollment'];
-                $id = $query['id'];
-                $student = new Student($student_name, $date_of_enrollment, $id);
-                array_push($return_student,$student);
-            }
+            $return_student = $queries->fetchAll(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, "Student", array('student_name','date_of_enrollment','id'));
+            // foreach ($queries as $query)
+            // {
+            //     $student_name = $query['student_name'];
+            //     $date_of_enrollment = $query['date_of_enrollment'];
+            //     $id = $query['id'];
+            //     $student = new Student($student_name, $date_of_enrollment, $id);
+            //     array_push($return_student,$student);
+            // }
             return $return_student;
         }
 
