@@ -52,6 +52,20 @@
             $GLOBALS['DB']->exec("DELETE FROM courses;");
         }
 
+        static function findCourse($search_id)
+        {
+            $queries = $GLOBALS['DB']->query("SELECT * FROM courses WHERE id = {$search_id};");
+            $return_course = null;
+            foreach ($queries as $query)
+            {
+                $course_name = $query['course_name'];
+                $course_number = $query['course_number'];
+                $id = $query['id'];
+                $return_course = new Course($course_name, $course_number, $id);
+            }
+            return $return_course;
+        }
+
 
     }
 ?>

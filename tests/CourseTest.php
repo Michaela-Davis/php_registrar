@@ -55,6 +55,27 @@
             $this->assertEquals([$test_course, $test_course2], $result);
         }
 
+        function test_find()
+        {
+            // Arrange
+            $course_name = "Macro Economics";
+            $course_number = "ECON101";
+            $test_course = new Course($course_name, $course_number);
+            $test_course->save();
+
+            $course_name2 = "Intro to Psychology";
+            $course_number2 = "PSYC101";
+            $test_course2 = new Course($course_name, $course_number);
+            $test_course2->save();
+
+            // Act
+            $result = Course::findCourse($test_course2->getCourseId());
+
+            // Assert
+            $this->assertEquals($test_course2,$result);
+        }
+
+
 
     }
 ?>
